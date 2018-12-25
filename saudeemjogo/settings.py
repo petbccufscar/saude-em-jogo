@@ -21,7 +21,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 with open('secret_keys/secrets') as f:
-        SECRET_KEY = f.read().strip()
+    SECRET_KEY = f.read().strip()
+with open('secret_keys/db_credentials') as f:
+    R = f.read().split('\n')
+    DB_USERNAME = R[0]
+    DB_PASS = R[1]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'saudeemjogo'
 ]
 
 MIDDLEWARE = [
@@ -76,6 +81,16 @@ WSGI_APPLICATION = 'saudeemjogo.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('DB_NAME', 'saude_em_jogo'),
+        'USER': os.environ.get('DB_USER', DB_USERNAME),
+        'PASSWORD': os.environ.get('DB_PASS', DB_PASS),
+        # Default values you can change if you want
+        'HOST': 'localhost',
+        'PORT': '5432'
+    },
+    # Current not working since the last Django update
+    'sqlite': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }

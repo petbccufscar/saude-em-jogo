@@ -38,3 +38,38 @@ pip install -r requirements.txt
  ```
 python3 manage.py runserver
  ```
+ 
+ ### Setting up PostgreSQL
+ 
+ You can use whatever database you want, really. I'll explain how to use PostgreSQL, since i'm using it right now.
+ ```
+ sudo pacman -S postgresql
+ ```
+  ```
+ sudo su postgres -l
+ ```
+  ```
+ initdb --locale $LANG -E UTF8 -D '/var/lib/postgres/data/'
+ ```
+  ```
+ exit or ctrl+d
+ ```
+  ```
+ sudo systemctl enable --now postgresql.service
+ ```
+ ```
+ sudo -i -u postgres psql
+ ```
+ ```
+ create database saude_em_jogo;
+ ```
+ ```
+ create user myuser with encrypted password 'mypass';
+ ```
+ ```
+ grant all privileges on database saude_em_jogo to myuser;
+ ```
+ ```
+ ctrl+d until exit all
+ ```
+ P.S: These are my configs, feel free to do yours
